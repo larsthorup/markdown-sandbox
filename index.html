@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    name = 'Lars';
+</script>
+
+<script id="start" type="text/markdown">
+#Hello ${name}!
+
+Choose your favorite animal:
+* [Cat](#cat)
+* [Dog](#dog)
+</script>
+
+<script id="dog" type="text/markdown">
+${name = 'Pedro', ''}
+#Wouf!
+[Restart](#)
+</script>
+
+<script id="cat" type="text/markdown">
+${name = 'Catherine', ''}
+#Meow!
+[Restart](#)
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.5.0/showdown.min.js"></script>
+
+<script>
+    var converter = new showdown.Converter();
+    function updatePage () {
+      var page = window.location.hash.substr(1) || 'start';
+      var template = document.getElementById(page).textContent;
+      var text = eval('`' + template + '`') // Note: eval is evil!
+      var html = converter.makeHtml(text);
+      document.body.innerHTML = html;
+    }
+    window.addEventListener('hashchange', updatePage, false);
+    window.addEventListener('DOMContentLoaded', updatePage, false);
+</script>
